@@ -52,6 +52,7 @@
 #include "EventGroupsDemo.h"
 #include "IntSemTest.h"
 #include "TaskNotify.h"
+#include "hardware/gpio.h"
 
 #include "main.h"
 
@@ -61,6 +62,13 @@
 #if ( mainRUN_ON_CORE == 1 )
 #include "pico/multicore.h"
 #endif
+
+#define TASK1_GPIO_PIN 2
+#define TASK2_GPIO_PIN 3
+#define TASK3_GPIO_PIN 4
+#define TASK4_GPIO_PIN 5
+#define TASK5_GPIO_PIN 6
+#define CBS_GPIO_PIN 8
 
 /* Set mainCREATE_SIMPLE_BLINKY_DEMO_ONLY to one to run the simple blinky demo,
 or 0 to run the more comprehensive test and demo application. */
@@ -72,6 +80,16 @@ or 0 to run the more comprehensive test and demo application. */
  */
 static void prvSetupHardware( void );
 
+void vTraceTaskSwitchedOut(void)
+{
+    gpio_put(TASK1_GPIO_PIN, 0);
+    gpio_put(TASK2_GPIO_PIN, 0);
+    gpio_put(TASK3_GPIO_PIN, 0);
+    gpio_put(TASK4_GPIO_PIN, 0);
+    gpio_put(TASK5_GPIO_PIN, 0);
+    gpio_put(CBS_GPIO_PIN,0);
+}
+ 
 /*
  * main_blinky() is used when mainCREATE_SIMPLE_BLINKY_DEMO_ONLY is set to 1.
  * main_full() is used when mainCREATE_SIMPLE_BLINKY_DEMO_ONLY is set to 0.
